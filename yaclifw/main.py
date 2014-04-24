@@ -27,7 +27,8 @@ will be presented to the user.
 
 import sys
 
-from framework import main, Stop
+from framework import main
+from framework import Stop
 
 
 def entry_point(items=tuple()):
@@ -36,6 +37,9 @@ def entry_point(items=tuple()):
     if Stop is raised, calls sys.exit()
     """
     try:
+        if not items:
+            from example import ExampleCommand
+            items = [(ExampleCommand.NAME, ExampleCommand)]
         main(items=items)
     except Stop, stop:
         print stop,
