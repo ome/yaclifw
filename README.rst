@@ -1,7 +1,8 @@
-OME, Go (omego)
-===============
+Yet Another CLI Framework
+=========================
 
-The omego command provides utilities for installing and managing OME applications.
+`yaclifw` is a framework for building CLI tools.
+
 
 |Build Status|
 
@@ -14,26 +15,33 @@ For Python 2.6, you will need to install `argparse`_
 
     $ pip install argparse
 
-With that, it's possible to execute omego:
+With that, it's possible to execute yaclifw:
 
 ::
 
-    $ python omego/main.py
+    $ python yaclifw/main.py
 
 Pip installation
 -----------------
 
-To install the latest release of omego use pip install:
+To install the latest release of yaclifw use pip install:
 
 ::
 
-    $ pip install omego
-    $ omego
+    $ pip install yaclifw
+    $ yaclifw
+
+Extending yaclifw
+-----------------
+
+The easiest way to make use of yaclifw is by cloning the
+repository and modifying the main.py method to include
+your own commands.
 
 License
 -------
 
-omego is released under the GPL.
+yaclifw is released under the GPL.
 
 Copyright
 ---------
@@ -41,5 +49,5 @@ Copyright
 2013-2014, The Open Microscopy Environment
 
 .. _argparse: http://pypi.python.org/pypi/argparse
-.. |Build Status| image:: https://travis-ci.org/ome/omego.png
-   :target: http://travis-ci.org/ome/omego
+.. |Build Status| image:: https://travis-ci.org/openmicroscopy/yaclifw.png
+   :target: http://travis-ci.org/openmicroscopy/yaclifw
