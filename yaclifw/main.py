@@ -20,7 +20,7 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 """
-Primary launching functions for omego. All Commands
+Primary launching functions for yaclifw. All Commands
 which are present in the globals() of this module
 will be presented to the user.
 """

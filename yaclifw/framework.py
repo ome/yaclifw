@@ -146,12 +146,12 @@ def parsers():
                 argparse.RawTextHelpFormatter._Section.__init__(
                     self, formatter, parent, heading)
 
-    omego_parser = argparse.ArgumentParser(
+    yaclifw_parser = argparse.ArgumentParser(
         description='omego - installation and administration tool',
         formatter_class=HelpFormatter)
-    sub_parsers = omego_parser.add_subparsers(title="Subcommands")
+    sub_parsers = yaclifw_parser.add_subparsers(title="Subcommands")
 
-    return omego_parser, sub_parsers
+    return yaclifw_parser, sub_parsers
 
 
 def main(args=None, items=None):
@@ -171,7 +171,7 @@ def main(args=None, items=None):
     if items is None:
         items = globals().items()
 
-    omego_parser, sub_parsers = parsers()
+    yaclifw_parser, sub_parsers = parsers()
 
     for name, MyCommand in sorted(items):
         if not isinstance(MyCommand, type):
@@ -182,5 +182,5 @@ def main(args=None, items=None):
             continue
         MyCommand(sub_parsers)
 
-    ns = omego_parser.parse_args(args)
+    ns = yaclifw_parser.parse_args(args)
     ns.func(ns)

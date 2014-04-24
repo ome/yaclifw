@@ -105,7 +105,7 @@ def get_git_version(abbrev=4):
 
 
 class Version(Command):
-    """Find which version of omego is being used"""
+    """Find which version of yaclifw is being used"""
 
     NAME = "version"
 

@@ -3,6 +3,6 @@ release:
 	python setup.py sdist upload --sign
 
 clean:
-	rm -rf build dist omego.egg-info *.pyc
+	rm -rf build dist yaclifw.egg-info *.pyc
 
 .PHONY: register clean

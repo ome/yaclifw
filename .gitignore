@@ -1,9 +1,3 @@
-96-well-sample-dataset
-ROI-samples/
-auto_import.log*
-from_skyking/
-test_images_good/
-test_images_metadata/
 *.pyc
 *.swp
 .*un~
@@ -11,5 +5,5 @@ MANIFEST
 RELEASE-VERSION
 build
 dist
-omego.egg-info
+yaclifw.egg-info
 .pypirc
