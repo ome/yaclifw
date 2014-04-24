@@ -80,7 +80,8 @@ class PyTest(TestCommand):
         errno = pytest.main(self.test_args)
         sys.exit(errno)
 
-VERSION = get_git_version()
+from yaclifw import __file__ as module_file
+VERSION = get_git_version(module_file)
 ZIP_SAFE = False
 
 LONG_DESCRIPTION = open("README.rst", "r").read()

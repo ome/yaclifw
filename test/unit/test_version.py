@@ -22,9 +22,15 @@
 import os
 import pytest
 
+from yaclifw import __file__ as module_file
 from yaclifw.framework import main
-from yaclifw.version import call_git_describe, Version, version_file
+from yaclifw.version import call_git_describe
 from yaclifw.version import get_git_version
+from yaclifw.version import _lookup_version
+from yaclifw.version import Version
+
+
+version_dir, version_file = _lookup_version(module_file)
 
 
 class TestVersion(object):
@@ -47,7 +53,7 @@ class TestVersion(object):
     def testVersionOutput(self, capsys):
         main("test", ["version"], items=[("version", Version)])
         out, err = capsys.readouterr()
-        assert out.rstrip() == get_git_version()
+        assert out.rstrip() == get_git_version(module_file)
 
     def testVersionFile(self, capsys):
         main("test", ["version"], items=[("version", Version)])
@@ -69,11 +75,15 @@ class TestVersion(object):
     def testNonGitRepository(self, capsys):
         # Move to a non-git repository and ensure call_git_describe
         # returns None
+        dir = os.getcwd()
         os.chdir('..')
-        assert call_git_describe() is None
-        main("test", ["version"], items=[("version", Version)])
-        out, err = capsys.readouterr()
-        assert out.rstrip() == self.read_version_file()
+        try:
+            assert call_git_describe() is None
+            main("test", ["version"], items=[("version", Version)])
+            out, err = capsys.readouterr()
+            assert out.rstrip() == self.read_version_file()
+        except:
+            os.chdir(dir)
 
     def testGitRepository(self, tmpdir):
         cwd = os.getcwd()
@@ -104,7 +114,7 @@ class TestVersion(object):
                 return '%s0.0.0%s' % (prefix, suffix)
         import yaclifw.version
         monkeypatch.setattr(yaclifw.version, 'call_git_describe', mockreturn)
-        version = get_git_version()
+        version = get_git_version(module_file)
         assert version == '0.0.0%s' % suffix
 
     @pytest.mark.parametrize(('prefix', 'suffix'), [['', 'rc1'], ['v.', '']])
@@ -114,4 +124,4 @@ class TestVersion(object):
         import yaclifw.version
         monkeypatch.setattr(yaclifw.version, 'call_git_describe', mockreturn)
         with pytest.raises(ValueError):
-            get_git_version()
+            get_git_version(module_file)

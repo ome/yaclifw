@@ -38,8 +38,20 @@ from os import path, getcwd, chdir
 from framework import Command
 import re
 
-version_dir = path.abspath(path.dirname(__file__))
-version_file = path.join(version_dir, "RELEASE-VERSION")
+
+def _lookup_version(module_file):
+    """
+    For the given module file (usually found by:
+
+        from package import __file__ as module_file
+
+    in the caller, return the location of
+    the current RELEASE-VERSION file and the file
+    itself.
+    """
+    version_dir = path.abspath(path.dirname(module_file))
+    version_file = path.join(version_dir, "RELEASE-VERSION")
+    return version_dir, version_file
 
 
 def call_git_describe(abbrev=4):
@@ -54,8 +66,9 @@ def call_git_describe(abbrev=4):
         return None
 
 
-def read_release_version():
+def read_release_version(module_file):
     try:
+        version_dir, version_file = _lookup_version(module_file)
         with open(version_file, "r") as f:
             version = f.readlines()[0]
             return version.strip()
@@ -63,7 +76,8 @@ def read_release_version():
         return None
 
 
-def write_release_version(version):
+def write_release_version(module_file, version):
+    version_dir, version_file = _lookup_version(module_file)
     with open(version_file, "w") as f:
         f.write("%s\n" % version)
 
@@ -71,12 +85,13 @@ version_pattern = '^(v)?(?P<version>[0-9]+[\.][0-9]+[\.][0-9]+(\-.+)*)$'
 version_pattern = re.compile(version_pattern)
 
 
-def get_git_version(abbrev=4):
+def get_git_version(module_file, abbrev=4):
     # Read in the version that's currently in RELEASE-VERSION.
-    release_version = read_release_version()
+    release_version = read_release_version(module_file)
 
     # First try to get the current version using “git describe”.
     cwd = getcwd()
+    version_dir, version_file = _lookup_version(module_file)
     git_version = None
     try:
         chdir(version_dir)
@@ -100,13 +115,15 @@ def get_git_version(abbrev=4):
     # If we still don't have anything, that's an error.
 
     if version is None:
-        raise ValueError("Cannot find the version number!")
+        raise ValueError((
+            "Cannot find the version number! Looking "
+            "in %s while in %s: %s"), version_dir, cwd)
 
     # If the current version is different from what's in the
     # RELEASE-VERSION file, update the file to be current.
 
     if version != release_version:
-        write_release_version(version)
+        write_release_version(module_file, version)
 
     # Finally, return the current version.
 
