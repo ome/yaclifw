@@ -1,21 +1,17 @@
 language: python
-
 python:
+  - "2.6"
   - "2.7"
-
 virtualenv:
   system_site_packages: true
-
-env: USER_AGENT=Travis
-
 before_install:
-  - if [[ $TRAVIS_PYTHON_VERSION == '2.6' ]]; then pip install --use-mirrors argparse; fi
-  - pip install -r requirements.txt --use-mirrors
-  - pip install -r dev_requirements.txt --use-mirrors
-  - sudo apt-get update -qq
-
-install: python yaclifw/main.py -h
-
+  - pip install -r requirements.txt
+  - pip install flake8
+  - if [[ $TRAVIS_PYTHON_VERSION == '2.6' ]]; then pip install argparse; fi
+  - flake8 -v .
 script:
-    - nosetests -v -d test
-    - flake8 yaclifw test
+  - python setup.py test -s test/unit -v
+  - python setup.py sdist install
+  - pip install dist/*.tar.gz
+  - scc -h
+language: python

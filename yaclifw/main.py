@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Copyright (C) 2013 University of Dundee & Open Microscopy Environment
+# Copyright (C) 2013-2014 University of Dundee & Open Microscopy Environment
 # All Rights Reserved.
 #
 # This program is free software; you can redistribute it and/or modify
@@ -25,6 +25,7 @@ which are present in the globals() of this module
 will be presented to the user.
 """
 
+import traceback
 import sys
 
 from framework import main
@@ -44,6 +45,14 @@ def entry_point(items=tuple()):
     except Stop, stop:
         print stop,
         sys.exit(stop.rc)
+    except SystemExit:
+        raise
+    except KeyboardInterrupt:
+        print "Cancelled"
+        sys.exit(1)
+    except:
+        traceback.print_exc()
+        sys.exit(1)
 
 
 if __name__ == "__main__":
