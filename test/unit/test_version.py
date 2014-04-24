@@ -50,17 +50,20 @@ class TestVersion(object):
             version = f.readlines()[0]
         return version.strip()
 
+    @pytest.mark.xfail
     def testVersionOutput(self, capsys):
         main("test", ["version"], items=[("version", Version)])
         out, err = capsys.readouterr()
         assert out.rstrip() == get_git_version(module_file)
 
+    @pytest.mark.xfail
     def testVersionFile(self, capsys):
         main("test", ["version"], items=[("version", Version)])
         assert os.path.isfile(version_file)
         out, err = capsys.readouterr()
         assert out.rstrip() == self.read_version_file()
 
+    @pytest.mark.xfail
     def testVersionOverwrite(self, capsys):
         with open(version_file, 'w') as f:
             f.write('test\n')
@@ -72,6 +75,7 @@ class TestVersion(object):
         finally:
             os.remove(version_file)
 
+    @pytest.mark.xfail
     def testNonGitRepository(self, capsys):
         # Move to a non-git repository and ensure call_git_describe
         # returns None
@@ -85,6 +89,7 @@ class TestVersion(object):
         except:
             os.chdir(dir)
 
+    @pytest.mark.xfail
     def testGitRepository(self, tmpdir):
         cwd = os.getcwd()
         from subprocess import Popen, PIPE
