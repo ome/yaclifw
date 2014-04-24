@@ -22,9 +22,9 @@
 import os
 import pytest
 
-from scc.framework import main
-from scc.version import call_git_describe, Version, version_file
-from scc.version import get_git_version
+from yaclifw.framework import main
+from yaclifw.version import call_git_describe, Version, version_file
+from yaclifw.version import get_git_version
 
 
 class TestVersion(object):
@@ -102,8 +102,8 @@ class TestVersion(object):
     def testVersionNumber(self, capsys, monkeypatch, prefix, suffix):
         def mockreturn(abbrev):
                 return '%s0.0.0%s' % (prefix, suffix)
-        import scc.version
-        monkeypatch.setattr(scc.version, 'call_git_describe', mockreturn)
+        import yaclifw.version
+        monkeypatch.setattr(yaclifw.version, 'call_git_describe', mockreturn)
         version = get_git_version()
         assert version == '0.0.0%s' % suffix
 
@@ -111,7 +111,7 @@ class TestVersion(object):
     def testInvalidVersionNumber(self, capsys, monkeypatch, prefix, suffix):
         def mockreturn(abbrev):
                 return '%s0.0.0%s' % (prefix, suffix)
-        import scc.version
-        monkeypatch.setattr(scc.version, 'call_git_describe', mockreturn)
+        import yaclifw.version
+        monkeypatch.setattr(yaclifw.version, 'call_git_describe', mockreturn)
         with pytest.raises(ValueError):
             get_git_version()

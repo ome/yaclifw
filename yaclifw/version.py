@@ -114,7 +114,7 @@ def get_git_version(abbrev=4):
 
 
 class Version(Command):
-    """Find which version of scc is being used"""
+    """Find which version of this library is being used"""
 
     NAME = "version"
 

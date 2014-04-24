@@ -24,7 +24,7 @@ yaclifw distribution script
 """
 
 from setuptools import setup
-from scc.version import get_git_version
+from yaclifw.version import get_git_version
 
 from setuptools.command.test import test as TestCommand
 import sys
@@ -94,7 +94,7 @@ CLASSIFIERS = ["Development Status :: 4 - Beta",
                "Programming Language :: Python",
                "Topic :: Software Development :: Version Control"]
 
-setup(name='scc',
+setup(name='yaclifw',
 
       # Simple strings
       author='The Open Microscopy Team',
@@ -104,7 +104,7 @@ setup(name='scc',
       url='https://github.com/openmicroscopy/yaclifw',
 
       # More complex variables
-      packages=['scc'],
+      packages=['yaclifw'],
       include_package_data=True,
       install_requires=['PyGithub', 'argparse'],
       entry_points={'console_scripts': ['yaclifw = yaclifw.main:entry_point']},
