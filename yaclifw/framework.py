@@ -84,7 +84,9 @@ class Command(object):
         self.log = logging.getLogger("%s.%s" % (FRAMEWORK_NAME, self.NAME))
         self.log_level = DEBUG_LEVEL
 
-        help = self.__doc__.lstrip()
+        help = self.__doc__
+        if help:
+            help = help.lstrip()
         self.parser = sub_parsers.add_parser(self.NAME,
                                              help=help, description=help)
         self.parser.set_defaults(func=self.__call__)

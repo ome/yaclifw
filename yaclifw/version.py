@@ -33,6 +33,7 @@
 
 __all__ = ("get_git_version")
 
+from yaclifw import __file__ as module_file
 from subprocess import Popen, PIPE
 from os import path, getcwd, chdir
 from framework import Command
@@ -134,6 +135,7 @@ class Version(Command):
     """Find which version of this library is being used"""
 
     NAME = "version"
+    FILE = module_file
 
     def __init__(self, sub_parsers):
         super(Version, self).__init__(sub_parsers)
@@ -145,10 +147,7 @@ class Version(Command):
         try:
             # If this file has been downloaded in isolation,
             # then scc_version will not be present.
-            version = get_git_version()
+            version = get_git_version(self.FILE)
         except:
             version = "unknown"
         print version
-
-if __name__ == "__main__":
-    print get_git_version()
