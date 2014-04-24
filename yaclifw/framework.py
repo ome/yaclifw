@@ -44,14 +44,6 @@ except ImportError:
     argparse_loaded = False
 
 
-OMEGO_DEBUG_LEVEL = logging.INFO
-if "OMEGO_DEBUG_LEVEL" in os.environ:
-    try:
-        OMEGO_DEBUG_LEVEL = int(os.environ.get("OMEGO_DEBUG_LEVEL"))
-    except:
-        OMEGO_DEBUG_LEVEL = 10  # Assume poorly formatted means "debug"
-
-
 #
 # Exceptions
 #
@@ -86,7 +78,7 @@ class Command(object):
 
     def __init__(self, sub_parsers):
         self.log = logging.getLogger("omego.%s" % self.NAME)
-        self.log_level = OMEGO_DEBUG_LEVEL
+        self.log_level = debug_level
 
         help = self.__doc__.lstrip()
         self.parser = sub_parsers.add_parser(self.NAME,
@@ -154,13 +146,25 @@ def parsers():
     return yaclifw_parser, sub_parsers
 
 
-def main(args=None, items=None):
+def main(fw_name, args=None, items=None):
     """
     Reusable entry point. Arguments are parsed
     via the argparse-subcommands configured via
     each Command class found in globals(). Stop
     exceptions are propagated to callers.
+
+    The name of the framework will be used in logging
+    and similar.
     """
+    debug_name = "%s_DEBUG_LEVEL" % fw_name.upper()
+    debug_level = logging.INFO
+    if debug_name in os.environ:
+        try:
+            debug_level = int(os.environ.get(debug_name))
+        except:
+            debug_level = 10  # Assume poorly formatted means "debug"
+    globals()[debug_name] = debug_level
+    globals()["debug_level"] = debug_level
 
     if not argparse_loaded:
         raise Stop(2, "Missing required module")

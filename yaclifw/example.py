@@ -24,4 +24,5 @@ class ExampleCommand(Command):
     def __call__(self, args):
         super(ExampleCommand, self).__call__(args)
         self.configure_logging(args)
+        self.log.debug("debug")
         self.log.info("info")

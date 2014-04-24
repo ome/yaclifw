@@ -40,7 +40,7 @@ def entry_point(items=tuple()):
         if not items:
             from example import ExampleCommand
             items = [(ExampleCommand.NAME, ExampleCommand)]
-        main(items=items)
+        main("yaclifw", items=items)
     except Stop, stop:
         print stop,
         sys.exit(stop.rc)
