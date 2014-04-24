@@ -77,8 +77,8 @@ class Command(object):
     NAME = "abstract"
 
     def __init__(self, sub_parsers):
-        self.log = logging.getLogger("omego.%s" % self.NAME)
-        self.log_level = debug_level
+        self.log = logging.getLogger("%s.%s" % (FRAMEWORK_NAME, self.NAME))
+        self.log_level = DEBUG_LEVEL
 
         help = self.__doc__.lstrip()
         self.parser = sub_parsers.add_parser(self.NAME,
@@ -104,7 +104,7 @@ class Command(object):
         logging.basicConfig(level=self.log_level, format=format)
         logging.getLogger('github').setLevel(logging.INFO)
 
-        self.log = logging.getLogger('omego.%s' % self.NAME)
+        self.log = logging.getLogger('%s.%s' % (FRAMEWORK_NAME, self.NAME))
         self.dbg = self.log.debug
 
 
@@ -156,6 +156,7 @@ def main(fw_name, args=None, items=None):
     The name of the framework will be used in logging
     and similar.
     """
+
     debug_name = "%s_DEBUG_LEVEL" % fw_name.upper()
     debug_level = logging.INFO
     if debug_name in os.environ:
@@ -163,8 +164,8 @@ def main(fw_name, args=None, items=None):
             debug_level = int(os.environ.get(debug_name))
         except:
             debug_level = 10  # Assume poorly formatted means "debug"
-    globals()[debug_name] = debug_level
-    globals()["debug_level"] = debug_level
+    globals()["DEBUG_LEVEL"] = debug_level
+    globals()["FRAMEWORK_NAME"] = fw_name
 
     if not argparse_loaded:
         raise Stop(2, "Missing required module")
