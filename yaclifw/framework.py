@@ -35,6 +35,10 @@ import os
 import sys
 import logging
 
+FRAMEWORK_NAME = "yaclifw"
+DEBUG_LEVEL = logging.INFO
+
+
 argparse_loaded = True
 try:
     import argparse
@@ -157,15 +161,16 @@ def main(fw_name, args=None, items=None):
     and similar.
     """
 
+    global DEBUG_LEVEL
+    global FRAMEWORK_NAME
+
     debug_name = "%s_DEBUG_LEVEL" % fw_name.upper()
-    debug_level = logging.INFO
     if debug_name in os.environ:
         try:
-            debug_level = int(os.environ.get(debug_name))
+            DEBUG_LEVEL = int(os.environ.get(debug_name))
         except:
-            debug_level = 10  # Assume poorly formatted means "debug"
-    globals()["DEBUG_LEVEL"] = debug_level
-    globals()["FRAMEWORK_NAME"] = fw_name
+            DEBUG_LEVEL = 10  # Assume poorly formatted means "debug"
+    FRAMEWORK_NAME = fw_name
 
     if not argparse_loaded:
         raise Stop(2, "Missing required module")

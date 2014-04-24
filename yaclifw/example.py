@@ -4,7 +4,6 @@
 import logging
 
 from framework import Command
-from framework import Stop
 
 log = logging.getLogger("yaclifw.example")
 
