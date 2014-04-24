@@ -40,7 +40,9 @@ def entry_point(items=tuple()):
     try:
         if not items:
             from example import ExampleCommand
-            items = [(ExampleCommand.NAME, ExampleCommand)]
+            from version import Version
+            items = [(ExampleCommand.NAME, ExampleCommand),
+                     (Version.NAME, Version)]
         main("yaclifw", items=items)
     except Stop, stop:
         print stop,
