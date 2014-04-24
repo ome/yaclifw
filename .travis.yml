@@ -8,10 +8,6 @@ before_install:
   - pip install -r requirements.txt
   - pip install flake8
   - if [[ $TRAVIS_PYTHON_VERSION == '2.6' ]]; then pip install argparse; fi
-  - flake8 -v .
 script:
-  - python setup.py test -s test/unit -v
-  - python setup.py sdist install
-  - pip install dist/*.tar.gz
-  - scc -h
+  - sh travis-build
 language: python

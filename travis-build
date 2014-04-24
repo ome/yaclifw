@@ -1,0 +1,6 @@
+set -e
+flake8 -v setup.py test yaclifw
+python setup.py test -s test/unit -v
+python setup.py sdist install
+pip install dist/*.tar.gz
+scc -h
