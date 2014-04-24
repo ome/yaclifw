@@ -106,7 +106,7 @@ setup(name='yaclifw',
       # More complex variables
       packages=['yaclifw'],
       include_package_data=True,
-      install_requires=['PyGithub', 'argparse'],
+      install_requires=['argparse'],
       entry_points={'console_scripts': ['yaclifw = yaclifw.main:entry_point']},
       zip_safe=ZIP_SAFE,
 

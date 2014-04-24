@@ -45,12 +45,12 @@ class TestVersion(object):
         return version.strip()
 
     def testVersionOutput(self, capsys):
-        main(["version"], items=[("version", Version)])
+        main("test", ["version"], items=[("version", Version)])
         out, err = capsys.readouterr()
         assert out.rstrip() == get_git_version()
 
     def testVersionFile(self, capsys):
-        main(["version"], items=[("version", Version)])
+        main("test", ["version"], items=[("version", Version)])
         assert os.path.isfile(version_file)
         out, err = capsys.readouterr()
         assert out.rstrip() == self.read_version_file()
@@ -60,7 +60,7 @@ class TestVersion(object):
             f.write('test\n')
         assert self.read_version_file() == 'test'
         try:
-            main(["version"], items=[("version", Version)])
+            main("test", ["version"], items=[("version", Version)])
             out, err = capsys.readouterr()
             assert out.rstrip() == self.read_version_file()
         finally:
@@ -71,7 +71,7 @@ class TestVersion(object):
         # returns None
         os.chdir('..')
         assert call_git_describe() is None
-        main(["version"], items=[("version", Version)])
+        main("test", ["version"], items=[("version", Version)])
         out, err = capsys.readouterr()
         assert out.rstrip() == self.read_version_file()
 
@@ -81,7 +81,7 @@ class TestVersion(object):
         sandbox_url = "https://github.com/openmicroscopy/snoopys-sandbox.git"
         path = str(tmpdir.mkdir("sandbox"))
         # Read the version for the current Git repository
-        main(["version"], items=[("version", Version)])
+        main("test", ["version"], items=[("version", Version)])
         version = self.read_version_file()
         try:
             # Clone snoopys-sanbox
@@ -92,7 +92,7 @@ class TestVersion(object):
             # Check git describe returns a different version number
             assert call_git_describe() != version
             # Read the version again and check the file is unmodified
-            main(["version"], items=[("version", Version)])
+            main("test", ["version"], items=[("version", Version)])
             assert self.read_version_file() == version
         finally:
             os.chdir(cwd)

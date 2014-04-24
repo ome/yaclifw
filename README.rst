@@ -13,7 +13,7 @@ Dependencies
 
 Direct dependencies of yaclifw are:
 
-- `PyGithub`_
+- `argparse`_
 
 Installation
 ------------

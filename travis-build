@@ -3,4 +3,12 @@ flake8 -v setup.py test yaclifw
 python setup.py test -s test/unit -v
 python setup.py sdist install
 pip install dist/*.tar.gz
-scc -h
+yaclifw -h
+yaclifw version
+yaclifw version -h
+yaclifw example
+yaclifw example -h
+yaclifw example -n
+yaclifw example --dry-run
+yaclifw example -v
+yaclifw example -q
