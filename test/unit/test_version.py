@@ -128,5 +128,4 @@ class TestVersion(object):
                 return '%s0.0.0%s' % (prefix, suffix)
         import yaclifw.version
         monkeypatch.setattr(yaclifw.version, 'call_git_describe', mockreturn)
-        with pytest.raises(ValueError):
-            get_git_version(module_file)
+        assert "UNKNOWN" == get_git_version(module_file)
