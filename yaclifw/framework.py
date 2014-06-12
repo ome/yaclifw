@@ -194,3 +194,8 @@ def main(fw_name, args=None, items=None):
 
     ns = yaclifw_parser.parse_args(args)
     ns.func(ns)
+    if hasattr(ns, 'callback'):
+        if callable(ns.callback):
+            ns.callback()
+        else:
+            raise Stop(3, "Callback not callable")
