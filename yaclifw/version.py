@@ -120,7 +120,7 @@ def get_git_version(module_file, abbrev=4):
         logger = logging.getLogger("yaclifw.version")
         logger.warn((
             "Cannot find the version number! Looking "
-            "in %s while in %s: %s"), version_dir, cwd)
+            "in %s while in %s"), version_dir, cwd)
         version = "UNKNOWN"
 
     # If the current version is different from what's in the
