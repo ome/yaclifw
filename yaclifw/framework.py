@@ -80,7 +80,7 @@ class Command(object):
 
     NAME = "abstract"
 
-    def __init__(self, sub_parsers):
+    def __init__(self, sub_parsers, set_defaults=True):
         self.log = logging.getLogger("%s.%s" % (FRAMEWORK_NAME, self.NAME))
         self.log_level = DEBUG_LEVEL
 
@@ -89,7 +89,8 @@ class Command(object):
             help = help.lstrip()
         self.parser = sub_parsers.add_parser(self.NAME,
                                              help=help, description=help)
-        self.parser.set_defaults(func=self.__call__)
+        if set_defaults:
+            self.parser.set_defaults(func=self.__call__)
 
         self.parser.add_argument(
             "-v", "--verbose", action="count", default=0,
@@ -194,3 +195,8 @@ def main(fw_name, args=None, items=None):
 
     ns = yaclifw_parser.parse_args(args)
     ns.func(ns)
+    if hasattr(ns, 'callback'):
+        if callable(ns.callback):
+            ns.callback()
+        else:
+            raise Stop(3, "Callback not callable")
