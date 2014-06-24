@@ -23,7 +23,7 @@ import pytest
 
 import argparse
 from ConfigParser import SafeConfigParser, NoSectionError
-from omego import argparseconfig
+from yaclifw import argparseconfig
 
 
 class TestArgparseConfigParser(object):
