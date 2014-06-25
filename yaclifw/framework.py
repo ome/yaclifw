@@ -42,6 +42,7 @@ DEBUG_LEVEL = logging.INFO
 argparse_loaded = True
 try:
     import argparse
+    import argparseconfig
 except ImportError:
     print >> sys.stderr, \
         "Module argparse missing. Install via 'pip install argparse'"
@@ -80,15 +81,16 @@ class Command(object):
 
     NAME = "abstract"
 
-    def __init__(self, sub_parsers, set_defaults=True):
+    def __init__(self, sub_parsers, parents=None, set_defaults=True):
         self.log = logging.getLogger("%s.%s" % (FRAMEWORK_NAME, self.NAME))
         self.log_level = DEBUG_LEVEL
 
         help = self.__doc__
         if help:
             help = help.lstrip()
-        self.parser = sub_parsers.add_parser(self.NAME,
-                                             help=help, description=help)
+        self.parser = sub_parsers.add_parser(
+            self.NAME, help=help, description=help, config_section=self.NAME,
+            parents=parents)
         if set_defaults:
             self.parser.set_defaults(func=self.__call__)
 
@@ -115,7 +117,14 @@ class Command(object):
         self.dbg = self.log.debug
 
 
-def parsers():
+def parsers(parse_config_files=None):
+    """
+    Create the base command line arguments parser
+    parse_config_files: A list of option names to indicate config-files
+      containing command line option arguments, for example
+      ['-c', '--conffile']. If provided a first pass will be done to read
+      the config files and set the default values
+    """
 
     class HelpFormatter(argparse.RawTextHelpFormatter):
         """
@@ -143,15 +152,23 @@ def parsers():
                 argparse.RawTextHelpFormatter._Section.__init__(
                     self, formatter, parent, heading)
 
-    yaclifw_parser = argparse.ArgumentParser(
+    yaclifw_parser = argparseconfig.ArgparseConfigParser(
         description='omego - installation and administration tool',
         formatter_class=HelpFormatter)
+
+    parents = []
+    if parse_config_files:
+        parsed, remaining, config, cfgparser = \
+            yaclifw_parser.add_and_parse_config_files(
+                *parse_config_files, config_section='main', add_help=False)
+        parents.append(cfgparser)
+
     sub_parsers = yaclifw_parser.add_subparsers(title="Subcommands")
 
-    return yaclifw_parser, sub_parsers
+    return yaclifw_parser, sub_parsers, parents
 
 
-def main(fw_name, args=None, items=None):
+def main(fw_name, args=None, items=None, parse_config_files=None):
     """
     Reusable entry point. Arguments are parsed
     via the argparse-subcommands configured via
@@ -182,7 +199,7 @@ def main(fw_name, args=None, items=None):
     if items is None:
         items = globals().items()
 
-    yaclifw_parser, sub_parsers = parsers()
+    yaclifw_parser, sub_parsers, parents = parsers(parse_config_files)
 
     for name, MyCommand in sorted(items):
         if not isinstance(MyCommand, type):
@@ -191,7 +208,7 @@ def main(fw_name, args=None, items=None):
             continue
         if MyCommand.NAME == "abstract":
             continue
-        MyCommand(sub_parsers)
+        MyCommand(sub_parsers, parents)
 
     ns = yaclifw_parser.parse_args(args)
     ns.func(ns)
