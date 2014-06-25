@@ -43,7 +43,7 @@ def entry_point(items=tuple()):
             from version import Version
             items = [(ExampleCommand.NAME, ExampleCommand),
                      (Version.NAME, Version)]
-        main("yaclifw", items=items)
+        main("yaclifw", items=items, parse_config_files=['-c', '--conffile'])
     except Stop, stop:
         print stop,
         sys.exit(stop.rc)
