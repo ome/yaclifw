@@ -140,8 +140,8 @@ class Version(Command):
     NAME = "version"
     FILE = module_file
 
-    def __init__(self, sub_parsers):
-        super(Version, self).__init__(sub_parsers)
+    def __init__(self, sub_parsers, parents):
+        super(Version, self).__init__(sub_parsers, parents)
         # No token args
 
     def __call__(self, args):
