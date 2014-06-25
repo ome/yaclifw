@@ -46,6 +46,17 @@ def set_action_default_from_config(action, config_dict):
             pass
 
 
+def boolconv(s):
+    """
+    Converts a string to a bool
+    """
+    if s.lower() in ('0', 'false'):
+        return False
+    if s.lower() in ('1', 'true'):
+        return True
+    raise Exception('Invalid boolean string: %s' % s)
+
+
 class ArgumentGroupParser(object):
     """
     Overrides the add_argument method of the object returned by
@@ -64,6 +75,10 @@ class ArgumentGroupParser(object):
         has_default = 'default' in kwargs
         print 'ArgumentGroupParser.add_argument', args, kwargs, has_default
         action = self.group.add_argument(*args, **kwargs)
+        if kwargs.get('action') == 'count':
+            setattr(action, 'type', int)
+        if kwargs.get('action') in ('store_true', 'store_false'):
+            setattr(action, 'type', boolconv)
         set_action_default_from_config(action, self.config_dict)
         return action
 
@@ -97,7 +112,9 @@ class ArgparseConfigParser(argparse.ArgumentParser):
 
     add_argument()
       Overrides add_argument so that the string values from a configuration
-      file can be converted to the required type if necessary.
+      file can be converted to the required type if necessary. Also checks
+      for a limited set of known action types to infer the required type
+      (count:int, store_true:bool, store_false:bool)
 
     add_argument_group(..., config_dict=dict, config_section=str)
       Takes an optional set of config file values, one of the following can be
@@ -237,6 +254,11 @@ class ArgparseConfigParser(argparse.ArgumentParser):
         print 'ArgparseConfigParser.add_argument', args, kwargs, has_default
         action = super(ArgparseConfigParser, self).add_argument(
             *args, **kwargs)
+        if kwargs.get('action') == 'count':
+            setattr(action, 'type', int)
+        if kwargs.get('action') in ('store_true', 'store_false'):
+            setattr(action, 'type', boolconv)
+        print action.type
         set_action_default_from_config(action, self.config_dict)
         return action
 
