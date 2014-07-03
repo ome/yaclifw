@@ -70,7 +70,6 @@ class ArgumentGroupParser(object):
         Overrides add_argument so that the string values from a configuration
         file can be converted to the required type if specified.
         """
-        has_default = 'default' in kwargs
         action = self.group.add_argument(*args, **kwargs)
         if kwargs.get('action') == 'count':
             setattr(action, 'type', int)
@@ -250,7 +249,6 @@ class ArgparseConfigParser(argparse.ArgumentParser):
         return parsed_args, remaining_args, config, cfgparser
 
     def add_argument(self, *args, **kwargs):
-        has_default = 'default' in kwargs
         action = super(ArgparseConfigParser, self).add_argument(
             *args, **kwargs)
         if kwargs.get('action') == 'count':
