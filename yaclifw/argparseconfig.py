@@ -101,8 +101,11 @@ class ArgparseConfigParser(argparse.ArgumentParser):
         example dict(ConfigParser.items())
       config_parser, ConfigParser: A ConfigParser object, if specified then
         config_section should also be given
-      config_section, str: The ConfigParser section name, if not specified
-        then no config values will be used for this parser
+      config_section, str or [str]: The ConfigParser section name, if not
+        specified then no config values will be used for this parser, if a
+        list then all sections will be merged together, with later sections
+        taking precedence. This allows defaults to be specified for multiple
+        sections.
       ignore_missing, bool: If True (default) missing configuration
         sections will be ignored. If configuration files are optional this
         must be True.
@@ -127,7 +130,7 @@ class ArgparseConfigParser(argparse.ArgumentParser):
       Returns a modified subparsers object that includes a link to the parent
       config values. This object includes a method addparser().
 
-      addparser()
+      add_parser()
         Takes the same optional config arguments as ArgparseConfigParser,
         except that config_parser from the parent parser will be automatically
         set if not otherwise provided, so just config_section can be
@@ -155,7 +158,7 @@ class ArgparseConfigParser(argparse.ArgumentParser):
       optionargs: short and/or long option names for indicating config file
         arguments
       args: Optional, array of arguments to be parsed
-      config_section: The name of the section in the config-file to use
+      config_section: The name of the section(s) in the config-file to use
       add_help: Whether to add a help argument
       return: (parsed_args, remaining_args, config)
         parsed_args: A Namespace object containing the parsed arguments
@@ -299,13 +302,17 @@ class ArgparseConfigParser(argparse.ArgumentParser):
         self.config_parser = config_parser
         self.config_dict = self.get_config_section(config_section)
 
-    def get_config_section(self, section):
-        if section is None:
+    def get_config_section(self, sections):
+        if sections is None:
             return {}
             # raise Exception('No ConfigParser section name provided')
-        try:
-            return dict(self.config_parser.items(section))
-        except ConfigParser.NoSectionError:
-            if self.ignore_missing:
-                return {}
-            raise
+        if isinstance(sections, str):
+            sections = [sections]
+        d = {}
+        for section in sections:
+            try:
+                d.update(self.config_parser.items(section))
+            except ConfigParser.NoSectionError:
+                if not self.ignore_missing:
+                    raise
+        return d
