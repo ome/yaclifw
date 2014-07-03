@@ -145,6 +145,35 @@ class TestArgparseConfigParser(object):
 
         self.assert_args_equal(expected, parsed2)
 
+    def test_merge_config_sections(self, tmpdir):
+        cfg1txt = [
+            '[main]',
+            'a = 1',
+            'b = 2',
+            '[section1]',
+            'a = 10',
+            '[section2]',
+            'b = 20',
+        ]
+
+        cfg1 = tmpdir.join('f1.cfg')
+        cfg1.write('\n'.join(cfg1txt))
+
+        argv = ['-c', str(cfg1)]
+        expected = {'a': 1, 'b': 20}
+
+        parser = argparseconfig.ArgparseConfigParser(add_help=False)
+        parsed, remaining, config, cfgparser = \
+            parser.add_and_parse_config_files(
+                '-c', '--conffile', args=argv,
+                config_section=['main', 'section2'])
+
+        parser.add_argument('-a', type=int)
+        parser.add_argument('-b', type=int)
+        parsed2 = parser.parse_args(remaining)
+
+        self.assert_args_equal(expected, parsed2)
+
     @pytest.mark.parametrize('config', ['match', 'nomatch', 'none'])
     @pytest.mark.parametrize('default', [None, 1])
     def test_set_action_default_from_config(self, config, default):
