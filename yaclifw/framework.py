@@ -117,9 +117,10 @@ class Command(object):
         self.dbg = self.log.debug
 
 
-def parsers(parse_config_files=None):
+def parsers(args=None, parse_config_files=None):
     """
     Create the base command line arguments parser
+    args: Command line argument to parse
     parse_config_files: A list of option names to indicate config-files
       containing command line option arguments, for example
       ['-c', '--conffile']. If provided a first pass will be done to read
@@ -160,7 +161,8 @@ def parsers(parse_config_files=None):
     if parse_config_files:
         parsed, remaining, config, cfgparser = \
             yaclifw_parser.add_and_parse_config_files(
-                *parse_config_files, config_section='main', add_help=False)
+                *parse_config_files, args=args, config_section='main',
+                add_help=False)
         parents.append(cfgparser)
 
     sub_parsers = yaclifw_parser.add_subparsers(title="Subcommands")
@@ -199,7 +201,7 @@ def main(fw_name, args=None, items=None, parse_config_files=None):
     if items is None:
         items = globals().items()
 
-    yaclifw_parser, sub_parsers, parents = parsers(parse_config_files)
+    yaclifw_parser, sub_parsers, parents = parsers(args, parse_config_files)
 
     for name, MyCommand in sorted(items):
         if not isinstance(MyCommand, type):
