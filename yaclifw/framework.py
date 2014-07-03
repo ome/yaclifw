@@ -81,16 +81,19 @@ class Command(object):
 
     NAME = "abstract"
 
-    def __init__(self, sub_parsers, parents=None, set_defaults=True):
+    def __init__(self, sub_parsers, parents=None, config_section=None,
+                 set_defaults=True):
         self.log = logging.getLogger("%s.%s" % (FRAMEWORK_NAME, self.NAME))
         self.log_level = DEBUG_LEVEL
 
         help = self.__doc__
         if help:
             help = help.lstrip()
+        if config_section is None:
+            config_section = self.NAME
         self.parser = sub_parsers.add_parser(
-            self.NAME, help=help, description=help, config_section=self.NAME,
-            parents=parents)
+            self.NAME, help=help, description=help,
+            config_section=config_section, parents=parents)
         if set_defaults:
             self.parser.set_defaults(func=self.__call__)
 
