@@ -39,8 +39,6 @@ def set_action_default_from_config(action, config_dict):
             default = config_dict[action.dest]
             if action.type:
                 default = action.type(default)
-            print 'Default %s: %s -> %s' % (
-                action.dest, action.default, default)
             action.default = default
         except KeyError:
             pass
@@ -73,7 +71,6 @@ class ArgumentGroupParser(object):
         file can be converted to the required type if specified.
         """
         has_default = 'default' in kwargs
-        print 'ArgumentGroupParser.add_argument', args, kwargs, has_default
         action = self.group.add_argument(*args, **kwargs)
         if kwargs.get('action') == 'count':
             setattr(action, 'type', int)
@@ -254,19 +251,16 @@ class ArgparseConfigParser(argparse.ArgumentParser):
 
     def add_argument(self, *args, **kwargs):
         has_default = 'default' in kwargs
-        print 'ArgparseConfigParser.add_argument', args, kwargs, has_default
         action = super(ArgparseConfigParser, self).add_argument(
             *args, **kwargs)
         if kwargs.get('action') == 'count':
             setattr(action, 'type', int)
         if kwargs.get('action') in ('store_true', 'store_false'):
             setattr(action, 'type', boolconv)
-        print action.type
         set_action_default_from_config(action, self.config_dict)
         return action
 
     def add_argument_group(self, *args, **kwargs):
-        print 'ArgparseConfigParser.add_argument_group', args, kwargs
         group_config_section = kwargs.pop('config_section', None)
         group_config_dict = kwargs.pop('config_dict', None)
 
