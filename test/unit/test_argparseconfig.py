@@ -107,6 +107,44 @@ class TestArgparseConfigParser(object):
 
         self.assert_args_equal(expected2, parsed2)
 
+    @pytest.mark.parametrize('mode', ['noargs', 'cmdargs', 'cfgfile'])
+    def test_add_argument_with_action_type(self, tmpdir, mode):
+        cfg1txt = [
+            '[main]',
+            'a = True',
+            'b = False',
+            'd = 1',
+            'e = 0',
+            'vs = 3',
+        ]
+
+        cfg1 = tmpdir.join('f1.cfg')
+        cfg1.write('\n'.join(cfg1txt))
+
+        if mode == 'noargs':
+            argv = []
+            expected = {'a': False, 'b': True, 'd': False, 'e': True, 'vs': None}
+        elif mode == 'cmdargs':
+            argv = ['-a', '-b', '-d', '-e', '-vv']
+            expected = {'a': True, 'b': False, 'd': True, 'e': False, 'vs': 2}
+        elif mode == 'cfgfile':
+            argv = ['-c', str(cfg1)]
+            expected = {'a': True, 'b': False, 'd': True, 'e': False, 'vs': 3}
+
+        parser = argparseconfig.ArgparseConfigParser(add_help=False)
+        parsed, remaining, config, cfgparser = \
+            parser.add_and_parse_config_files(
+                '-c', '--conffile', args=argv, config_section='main')
+
+        parser.add_argument('-a', action='store_true')
+        parser.add_argument('-b', action='store_false')
+        parser.add_argument('-d', action='store_true')
+        parser.add_argument('-e', action='store_false')
+        parser.add_argument('-v', '--vs', action='count')
+        parsed2 = parser.parse_args(remaining)
+
+        self.assert_args_equal(expected, parsed2)
+
     @pytest.mark.parametrize('config', ['match', 'nomatch', 'none'])
     @pytest.mark.parametrize('default', [None, 1])
     def test_set_action_default_from_config(self, config, default):
