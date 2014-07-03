@@ -48,6 +48,10 @@ The easiest way to make use of yaclifw is by cloning the
 repository and modifying the main.py method to include
 your own commands.
 
+Note that yaclifw uses a wrapped version of argparse to allow argument to
+be specified at the command line or in a configuration file, however not
+all argparse functions are supported.
+
 Contributing
 ------------
 
