@@ -123,7 +123,8 @@ class TestArgparseConfigParser(object):
 
         if mode == 'noargs':
             argv = []
-            expected = {'a': False, 'b': True, 'd': False, 'e': True, 'vs': None}
+            expected = {
+                'a': False, 'b': True, 'd': False, 'e': True, 'vs': None}
         elif mode == 'cmdargs':
             argv = ['-a', '-b', '-d', '-e', '-vv']
             expected = {'a': True, 'b': False, 'd': True, 'e': False, 'vs': 2}
