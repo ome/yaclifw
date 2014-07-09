@@ -89,6 +89,8 @@ class Command(object):
         help = self.__doc__
         if help:
             help = help.lstrip()
+        if parents is None:
+            parents = []
         if config_section is None:
             config_section = self.NAME
         self.parser = sub_parsers.add_parser(
@@ -213,7 +215,11 @@ def main(fw_name, args=None, items=None, parse_config_files=None):
             continue
         if MyCommand.NAME == "abstract":
             continue
-        MyCommand(sub_parsers, parents)
+        try:
+            MyCommand(sub_parsers, parents)
+        except TypeError:
+            # Backwards compatible with yaclifw <= 0.1.2
+            MyCommand(sub_parsers)
 
     ns = yaclifw_parser.parse_args(args)
     ns.func(ns)
