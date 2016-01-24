@@ -148,7 +148,7 @@ def parsers():
                     self, formatter, parent, heading)
 
     yaclifw_parser = argparse.ArgumentParser(
-        description='omego - installation and administration tool',
+        description='yaclifw - Yet Another Command Line Interface Framework',
         formatter_class=HelpFormatter)
     if argparse_loaded >= 2:
         yaclifw_parser.add_argument(
