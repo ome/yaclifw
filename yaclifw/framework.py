@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Copyright (C) 2014 University of Dundee & Open Microscopy Environment
+# Copyright (C) 2014-2015 University of Dundee & Open Microscopy Environment
 # All Rights Reserved.
 #
 # This program is free software; you can redistribute it and/or modify
@@ -39,13 +39,17 @@ FRAMEWORK_NAME = "yaclifw"
 DEBUG_LEVEL = logging.INFO
 
 
-argparse_loaded = True
 try:
-    import argparse
+    import configargparse as argparse
+    argparse_loaded = 2
 except ImportError:
-    print >> sys.stderr, \
-        "Module argparse missing. Install via 'pip install argparse'"
-    argparse_loaded = False
+    # print >> sys.stderr, "Falling back to argparse."
+    try:
+        import argparse
+        argparse_loaded = 1
+    except ImportError:
+        print >> sys.stderr, "Module argparse missing.'"
+        argparse_loaded = 0
 
 
 #
@@ -146,6 +150,9 @@ def parsers():
     yaclifw_parser = argparse.ArgumentParser(
         description='omego - installation and administration tool',
         formatter_class=HelpFormatter)
+    if argparse_loaded >= 2:
+        yaclifw_parser.add_argument(
+            "-c", "--config", is_config_file=True, help="Configuration file")
     sub_parsers = yaclifw_parser.add_subparsers(title="Subcommands")
 
     return yaclifw_parser, sub_parsers
