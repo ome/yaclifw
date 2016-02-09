@@ -15,7 +15,7 @@
 # from version import *
 #
 # setup(
-#     version=git_version(),
+#     version=get_git_version(),
 #     .
 #     .
 #     .
