@@ -15,7 +15,7 @@
 # from version import *
 #
 # setup(
-#     version=get_git_version(),
+#     version=git_version(),
 #     .
 #     .
 #     .
@@ -31,13 +31,13 @@
 #
 #   include RELEASE-VERSION
 
-__all__ = ("get_git_version")
-
 from yaclifw import __file__ as module_file
 from subprocess import Popen, PIPE
 from os import path, getcwd, chdir
 from framework import Command
 import re
+
+__all__ = ("get_git_version")
 
 
 def _lookup_version(module_file):
