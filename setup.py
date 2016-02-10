@@ -24,6 +24,7 @@ yaclifw distribution script
 """
 
 from setuptools import setup
+from yaclifw import __file__ as module_file
 from yaclifw.version import get_git_version
 
 from setuptools.command.test import test as TestCommand
@@ -84,7 +85,6 @@ class PyTest(TestCommand):
         errno = pytest.main(self.test_args)
         sys.exit(errno)
 
-from yaclifw import __file__ as module_file
 VERSION = get_git_version(module_file)
 ZIP_SAFE = False
 
