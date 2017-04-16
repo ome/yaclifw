@@ -15,8 +15,8 @@ class ExampleCommand(Command):
 
     NAME = "example"
 
-    def __init__(self, sub_parsers):
-        super(ExampleCommand, self).__init__(sub_parsers)
+    def __init__(self, sub_parsers, parents):
+        super(ExampleCommand, self).__init__(sub_parsers, parents)
 
         self.parser.add_argument("-n", "--dry-run", action="store_true")
 
