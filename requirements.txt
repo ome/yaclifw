@@ -1,2 +1,2 @@
 # Optional dependency
-#ConfigArgParse>=0.10.0
+ConfigArgParse>=0.12,<0.13
