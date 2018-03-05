@@ -54,7 +54,7 @@ def entry_point(items=tuple()):
     except KeyboardInterrupt:
         print("Cancelled")
         sys.exit(1)
-    except:
+    except Exception:
         traceback.print_exc()
         sys.exit(1)
 

@@ -45,7 +45,8 @@ argparse_loaded = True
 try:
     import argparse
 except ImportError:
-    print("Module argparse missing. Install via 'pip install argparse'", file=sys.stderr)
+    print("Module argparse missing. Install via 'pip install argparse'",
+          file=sys.stderr)
     argparse_loaded = False
 
 
@@ -170,7 +171,7 @@ def main(fw_name, args=None, items=None):
     if debug_name in os.environ:
         try:
             DEBUG_LEVEL = int(os.environ.get(debug_name))
-        except:
+        except ValueError:
             DEBUG_LEVEL = 10  # Assume poorly formatted means "debug"
     FRAMEWORK_NAME = fw_name
 

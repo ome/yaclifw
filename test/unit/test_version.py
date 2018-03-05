@@ -87,7 +87,7 @@ class TestVersion(object):
             main("test", ["version"], items=[("version", Version)])
             out, err = capsys.readouterr()
             assert out.rstrip() == self.read_version_file()
-        except:
+        except Exception:
             os.chdir(dir)
 
     @pytest.mark.xfail

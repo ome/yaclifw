@@ -65,7 +65,7 @@ def call_git_describe(abbrev=4):
         line = p.stdout.readlines()[0]
         return line.strip().decode("utf-8")
 
-    except:
+    except Exception:
         return None
 
 
@@ -75,7 +75,7 @@ def read_release_version(module_file):
         with open(version_file, "r") as f:
             version = f.readlines()[0]
             return version.strip()
-    except:
+    except Exception:
         return None
 
 
@@ -83,6 +83,7 @@ def write_release_version(module_file, version):
     version_dir, version_file = _lookup_version(module_file)
     with open(version_file, "w") as f:
         f.write("%s\n" % version)
+
 
 version_pattern = '^(v)?(?P<version>[0-9]+[\.][0-9]+[\.][0-9]+(\-.+)*)$'
 version_pattern = re.compile(version_pattern)
@@ -153,6 +154,6 @@ class Version(Command):
             # If this file has been downloaded in isolation,
             # then scc_version will not be present.
             version = get_git_version(self.FILE)
-        except:
+        except Exception:
             version = "unknown"
         print(version)
