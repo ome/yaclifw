@@ -31,6 +31,8 @@ Environment variables:
 
 """
 
+from __future__ import absolute_import
+from __future__ import print_function
 import os
 import sys
 import logging
@@ -43,8 +45,7 @@ argparse_loaded = True
 try:
     import argparse
 except ImportError:
-    print >> sys.stderr, \
-        "Module argparse missing. Install via 'pip install argparse'"
+    print("Module argparse missing. Install via 'pip install argparse'", file=sys.stderr)
     argparse_loaded = False
 
 
@@ -180,7 +181,7 @@ def main(fw_name, args=None, items=None):
         args = sys.argv[1:]
 
     if items is None:
-        items = globals().items()
+        items = list(globals().items())
 
     yaclifw_parser, sub_parsers = parsers()
 

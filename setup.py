@@ -23,6 +23,7 @@
 yaclifw distribution script
 """
 
+from __future__ import absolute_import
 from setuptools import setup
 from yaclifw import __file__ as module_file
 from yaclifw.version import get_git_version

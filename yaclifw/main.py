@@ -25,11 +25,13 @@ which are present in the globals() of this module
 will be presented to the user.
 """
 
+from __future__ import absolute_import
+from __future__ import print_function
 import traceback
 import sys
 
-from framework import main
-from framework import Stop
+from .framework import main
+from .framework import Stop
 
 
 def entry_point(items=tuple()):
@@ -39,18 +41,18 @@ def entry_point(items=tuple()):
     """
     try:
         if not items:
-            from example import ExampleCommand
-            from version import Version
+            from .example import ExampleCommand
+            from .version import Version
             items = [(ExampleCommand.NAME, ExampleCommand),
                      (Version.NAME, Version)]
         main("yaclifw", items=items)
-    except Stop, stop:
-        print stop,
+    except Stop as stop:
+        print(stop, end=' ')
         sys.exit(stop.rc)
     except SystemExit:
         raise
     except KeyboardInterrupt:
-        print "Cancelled"
+        print("Cancelled")
         sys.exit(1)
     except:
         traceback.print_exc()

@@ -31,10 +31,12 @@
 #
 #   include RELEASE-VERSION
 
+from __future__ import absolute_import
+from __future__ import print_function
 from yaclifw import __file__ as module_file
 from subprocess import Popen, PIPE
 from os import path, getcwd, chdir
-from framework import Command
+from .framework import Command
 import re
 
 __all__ = ("get_git_version")
@@ -153,4 +155,4 @@ class Version(Command):
             version = get_git_version(self.FILE)
         except:
             version = "unknown"
-        print version
+        print(version)
