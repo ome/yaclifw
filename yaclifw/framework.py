@@ -36,18 +36,10 @@ from __future__ import print_function
 import os
 import sys
 import logging
+import argparse
 
 FRAMEWORK_NAME = "yaclifw"
 DEBUG_LEVEL = logging.INFO
-
-
-argparse_loaded = True
-try:
-    import argparse
-except ImportError:
-    print("Module argparse missing. Install via 'pip install argparse'",
-          file=sys.stderr)
-    argparse_loaded = False
 
 
 #
@@ -174,9 +166,6 @@ def main(fw_name, args=None, items=None):
         except ValueError:
             DEBUG_LEVEL = 10  # Assume poorly formatted means "debug"
     FRAMEWORK_NAME = fw_name
-
-    if not argparse_loaded:
-        raise Stop(2, "Missing required module")
 
     if args is None:
         args = sys.argv[1:]
