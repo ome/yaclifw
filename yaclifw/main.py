@@ -47,7 +47,7 @@ def entry_point(items=tuple()):
                      (Version.NAME, Version)]
         main("yaclifw", items=items)
     except Stop as stop:
-        print(stop, end=' ')
+        print(stop)
         sys.exit(stop.rc)
     except SystemExit:
         raise
