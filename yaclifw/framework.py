@@ -31,21 +31,15 @@ Environment variables:
 
 """
 
+from __future__ import absolute_import
+from __future__ import print_function
 import os
 import sys
 import logging
+import argparse
 
 FRAMEWORK_NAME = "yaclifw"
 DEBUG_LEVEL = logging.INFO
-
-
-argparse_loaded = True
-try:
-    import argparse
-except ImportError:
-    print >> sys.stderr, \
-        "Module argparse missing. Install via 'pip install argparse'"
-    argparse_loaded = False
 
 
 #
@@ -169,18 +163,15 @@ def main(fw_name, args=None, items=None):
     if debug_name in os.environ:
         try:
             DEBUG_LEVEL = int(os.environ.get(debug_name))
-        except:
+        except ValueError:
             DEBUG_LEVEL = 10  # Assume poorly formatted means "debug"
     FRAMEWORK_NAME = fw_name
-
-    if not argparse_loaded:
-        raise Stop(2, "Missing required module")
 
     if args is None:
         args = sys.argv[1:]
 
     if items is None:
-        items = globals().items()
+        items = list(globals().items())
 
     yaclifw_parser, sub_parsers = parsers()
 

@@ -19,6 +19,7 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+from __future__ import absolute_import
 import os
 import pytest
 
@@ -86,7 +87,7 @@ class TestVersion(object):
             main("test", ["version"], items=[("version", Version)])
             out, err = capsys.readouterr()
             assert out.rstrip() == self.read_version_file()
-        except:
+        except Exception:
             os.chdir(dir)
 
     @pytest.mark.xfail

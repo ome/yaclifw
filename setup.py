@@ -23,6 +23,7 @@
 yaclifw distribution script
 """
 
+from __future__ import absolute_import
 from setuptools import setup
 from yaclifw import __file__ as module_file
 from yaclifw.version import get_git_version
@@ -85,6 +86,7 @@ class PyTest(TestCommand):
         errno = pytest.main(self.test_args)
         sys.exit(errno)
 
+
 VERSION = get_git_version(module_file)
 ZIP_SAFE = False
 
@@ -111,7 +113,7 @@ setup(name='yaclifw',
       # More complex variables
       packages=['yaclifw'],
       include_package_data=True,
-      install_requires=['argparse'],
+      install_requires=['six'],
       entry_points={'console_scripts': ['yaclifw = yaclifw.main:entry_point']},
       zip_safe=ZIP_SAFE,
 
