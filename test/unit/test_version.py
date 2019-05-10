@@ -94,7 +94,7 @@ class TestVersion(object):
     def testGitRepository(self, tmpdir):
         cwd = os.getcwd()
         from subprocess import Popen, PIPE
-        sandbox_url = "https://github.com/openmicroscopy/snoopys-sandbox.git"
+        sandbox_url = "https://github.com/ome/snoopys-sandbox.git"
         path = str(tmpdir.mkdir("sandbox"))
         # Read the version for the current Git repository
         main("test", ["version"], items=[("version", Version)])

@@ -89,7 +89,7 @@ Copyright
 .. _argparse: http://pypi.python.org/pypi/argparse
 .. _pep8: https://pypi.python.org/pypi/pep8
 .. _flake8: https://pypi.python.org/pypi/flake8
-.. _Travis: http://travis-ci.org/openmicroscopy/yaclifw
+.. _Travis: https://travis-ci.org/ome/yaclifw
 
-.. |Build Status| image:: https://travis-ci.org/openmicroscopy/yaclifw.png
-   :target: http://travis-ci.org/openmicroscopy/yaclifw
+.. |Build Status| image:: https://travis-ci.org/ome/yaclifw.png
+   :target: https://travis-ci.org/ome/yaclifw
