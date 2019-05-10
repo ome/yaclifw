@@ -85,7 +85,7 @@ def write_release_version(module_file, version):
         f.write("%s\n" % version)
 
 
-version_pattern = '^(v)?(?P<version>[0-9]+[\.][0-9]+[\.][0-9]+(\-.+)*)$'
+version_pattern = r'^(v)?(?P<version>[0-9]+[\.][0-9]+[\.][0-9]+(\-.+)*)$'
 version_pattern = re.compile(version_pattern)
 
 

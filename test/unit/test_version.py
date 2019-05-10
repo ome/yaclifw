@@ -117,7 +117,7 @@ class TestVersion(object):
     @pytest.mark.parametrize('suffix', ['', '-rc1', '-31-gbf8afc8'])
     def testVersionNumber(self, capsys, monkeypatch, prefix, suffix):
         def mockreturn(abbrev):
-                return '%s0.0.0%s' % (prefix, suffix)
+            return '%s0.0.0%s' % (prefix, suffix)
         import yaclifw.version
         monkeypatch.setattr(yaclifw.version, 'call_git_describe', mockreturn)
         version = get_git_version(module_file)
@@ -126,7 +126,7 @@ class TestVersion(object):
     @pytest.mark.parametrize(('prefix', 'suffix'), [['', 'rc1'], ['v.', '']])
     def testInvalidVersionNumber(self, capsys, monkeypatch, prefix, suffix):
         def mockreturn(abbrev):
-                return '%s0.0.0%s' % (prefix, suffix)
+            return '%s0.0.0%s' % (prefix, suffix)
         import yaclifw.version
         monkeypatch.setattr(yaclifw.version, 'call_git_describe', mockreturn)
         assert "UNKNOWN" == get_git_version(module_file)
