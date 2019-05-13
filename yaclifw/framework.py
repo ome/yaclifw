@@ -20,7 +20,7 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 """
-Framework copied from openmicroscopy/snoopycrimecop for
+Framework copied from ome/snoopycrimecop for
 registering commands. This is also used by the omego and
 scc PyPI packages.
 

@@ -108,7 +108,7 @@ setup(name='yaclifw',
       author_email='ome-devel@lists.openmicroscopy.org.uk',
       description='Framework for building command-line tools',
       license='GPLv2',
-      url='https://github.com/openmicroscopy/yaclifw',
+      url='https://github.com/ome/yaclifw',
 
       # More complex variables
       packages=['yaclifw'],
