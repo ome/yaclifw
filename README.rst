@@ -1,7 +1,11 @@
+.. image:: https://github.com/ome/yaclifw/workflows/Tox/badge.svg
+    :target: https://github.com/ome/yaclifw/actions
+
+.. image:: https://badge.fury.io/py/yaclifw.svg
+    :target: https://badge.fury.io/py/yaclifw
+
 Yet Another CLI Framework
 =========================
-
-|Build Status|
 
 Introduction
 ------------
@@ -73,7 +77,7 @@ Unit tests are stored under the `test/unit` folder and can be run by calling::
 
   python setup.py test -t test/unit
 
-Unit tests are also run by the Travis_ build on every Pull Request opened
+Unit tests are also run by the GitHub workflow on every Pull Request opened
 against the main repository.
 
 License
@@ -89,7 +93,3 @@ Copyright
 .. _argparse: http://pypi.python.org/pypi/argparse
 .. _pep8: https://pypi.python.org/pypi/pep8
 .. _flake8: https://pypi.python.org/pypi/flake8
-.. _Travis: https://travis-ci.org/ome/yaclifw
-
-.. |Build Status| image:: https://travis-ci.org/ome/yaclifw.png
-   :target: https://travis-ci.org/ome/yaclifw
