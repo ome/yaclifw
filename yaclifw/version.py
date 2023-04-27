@@ -124,7 +124,7 @@ def get_git_version(module_file, abbrev=4):
         logger.warn((
             "Cannot find the version number! Looking "
             "in %s while in %s"), version_dir, cwd)
-        version = "UNKNOWN"
+        version = "0.0.0"
 
     # If the current version is different from what's in the
     # RELEASE-VERSION file, update the file to be current.

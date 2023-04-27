@@ -129,4 +129,4 @@ class TestVersion(object):
             return '%s0.0.0%s' % (prefix, suffix)
         import yaclifw.version
         monkeypatch.setattr(yaclifw.version, 'call_git_describe', mockreturn)
-        assert "UNKNOWN" == get_git_version(module_file)
+        assert "0.0.0" == get_git_version(module_file)
