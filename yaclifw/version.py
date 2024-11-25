@@ -121,7 +121,7 @@ def get_git_version(module_file, abbrev=4):
     if version is None:
         import logging
         logger = logging.getLogger("yaclifw.version")
-        logger.warn((
+        logger.warning((
             "Cannot find the version number! Looking "
             "in %s while in %s"), version_dir, cwd)
         version = "0.0.0"
